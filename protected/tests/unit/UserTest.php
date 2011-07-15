@@ -1,25 +1,25 @@
 <?php
 
 class UserTest extends CDbTestCase {
-  public $attr = array('password' => 'test_1', 'password2' => 'test_1');
+  public $attr = array('email' => 'test3@notanaddress.com', 'password' => 'test_3', 'password2' => 'test_3');
   public $fixtures = array('users' => 'User');
 
   public function testCreateValidUser() {
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes($this->attr);
     $this->assertTrue($user->save());
   }
 
   public function testRequireEmailAddress() {
     $noEmailUser = new User;
-    $noEmailUser->setAttributes(array_merge($this->users('user1')->attributes, array('email' => '')));
+    $noEmailUser->setAttributes(array_merge($this->attr, array('email' => '')));
     $this->assertFalse($noEmailUser->save());
   }
 
   public function testAcceptValidEmailAddresses() {
     $addresses = array('user@foo.com', 'THE_USER@foo.bar.org', 'first.last@foo.jp');
     foreach ($addresses as $address) {
-      $validEmailUser = $this->users('user1');
+      $validEmailUser = new User;
       $validEmailUser->setAttributes(array_merge($this->attr, array('email' => $address)));
       $this->assertTrue($validEmailUser->save());
     }
@@ -28,36 +28,35 @@ class UserTest extends CDbTestCase {
   public function testRejectInvalidEmailAddresses() {
     $addresses = array('user@foo,com', 'user_at_foo.org', 'example.user@foo.');
     foreach ($addresses as $address) {
-      $invalidEmailUser = $this->users('user1');
+      $invalidEmailUser = new User;
       $invalidEmailUser->setAttributes(array_merge($this->attr, array('email' => $address)));
       $this->assertFalse($invalidEmailUser->save());
     }
   }
 
   public function testRejectDuplicateEmailAddresses() {
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes($this->attr);
     $this->assertTrue($user->save());
 
-    $userWithDuplicateEmail = $this->users('user2');
+    $userWithDuplicateEmail = new User;
     $userWithDuplicateEmail->setAttributes(array_merge($this->attr, array('email' => $this->users('user1')->email)));
     $this->assertFalse($userWithDuplicateEmail->save());
   }
 
   public function testRejectEmailAddressesIdenticalCase() {
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes($this->attr);
     $this->assertTrue($user->save());
 
-    $upcasedEmail = strtoupper($this->users('user1')->email);
-    $userWithDuplicateEmail = $this->users('user2');
-    $userWithDuplicateEmail->setAttributes(array_merge($this->attr, array('email' => $upcasedEmail)));
+    $userWithDuplicateEmail = new User;
+    $userWithDuplicateEmail->setAttributes(array_merge($this->attr, array('email' => strtoupper($this->users('user1')->email))));
     $this->assertFalse($userWithDuplicateEmail->save());
   }
 
   public function testRequirePassword() {
     $user = new User;
-    $user->setAttributes(array_merge($this->users('user1')->attributes, array(
+    $user->setAttributes(array_merge($this->attr, array(
       'password' => '',
       'password2' => ''
     )));
@@ -65,16 +64,22 @@ class UserTest extends CDbTestCase {
   }
 
   public function testRequirePasswordConfirmation() {
-    $user = new User;
-    $user->setAttributes(array_merge($this->users('user1')->attributes, array(
+    $user1 = new User;
+    $user1->setAttributes(array_merge($this->attr, array(
       'password2' => ''
     )));
-    $this->assertFalse($user->save());
+    $this->assertFalse($user1->save());
+    
+    $user2 = new User;
+    $user2->setAttributes(array_merge($this->attr, array(
+      'password2' => 'test_2'
+    )));
+    $this->assertFalse($user2->save());
   }
 
   public function testRejectShortPasswords() {
     $short = 'aaaaa';
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes(array_merge($this->attr, array(
       'password' => $short,
       'password2' => $short,
@@ -87,7 +92,7 @@ class UserTest extends CDbTestCase {
     for ($i = 1; $i <= 41; $i++) {
       $long = $long . "a";
     }
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes(array_merge($this->attr, array(
       'password' => $long,
       'password2' => $long,
@@ -96,7 +101,7 @@ class UserTest extends CDbTestCase {
   }
 
   public function testEncryptPasswords() {
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes($this->attr);
     $this->assertTrue($user->save());
     $this->assertNotEmpty($user->encrypted_password);
@@ -104,7 +109,7 @@ class UserTest extends CDbTestCase {
 
   public function testPasswordEncryptionValid() {
     // should be true if the passwords match
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes($this->attr);
     $this->assertTrue($user->save());
     $retUser = User::model()->findByPk($user->id);
@@ -116,31 +121,31 @@ class UserTest extends CDbTestCase {
 
   public function testPasswordEncryptionInvalid() {
     // should be false if the passwords don't match
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes($this->attr);
     $this->assertTrue($user->save());
     $retUser = User::model()->findByPk($user->id);
     $this->assertTrue($retUser instanceof User);
     $this->assertNotEmpty($retUser->salt);
     $this->assertNotEmpty($retUser->encrypted_password);
-    $this->assertFalse($user->hasPassword('invalid password'));
+    $this->assertFalse($user->hasPassword('invalid_password'));
   }
 
   public function testAuthenticateMethod() {
-    $user = $this->users('user1');
+    $user = new User;
     $user->setAttributes($this->attr);
     $this->assertTrue($user->save());
 
     // should return nil on email/password mismatch
-    $wrongPassUser = User::authenticate($this->users('user1')->email, 'wrong pass');
+    $wrongPassUser = User::authenticate($this->attr['email'], 'wrong pass');
     $this->assertNull($wrongPassUser);
 
     // should return nil for an email address with no user
-    $nonexistUser = User::authenticate('bar@foo.baz', $this->users('user1')->password);
+    $nonexistUser = User::authenticate('bar@foo.baz', $this->attr['password']);
     $this->assertNull($nonexistUser);
 
     // should return the user on email/password match
-    $matchingUser = User::authenticate($this->users('user1')->email, $this->users('user1')->password);
+    $matchingUser = User::authenticate($this->attr['email'], $this->attr['password']);
     $this->assertTrue($matchingUser instanceof User);
   }
 

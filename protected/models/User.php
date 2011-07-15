@@ -43,6 +43,7 @@ class User extends CActiveRecord {
       array('email, password, password2', 'required', 'on' => 'insert'),
       array('email', 'required', 'on' => 'change_email'),
       array('password, password2', 'required', 'on' => 'change_password'),
+      array('password', 'compare', 'compareAttribute'=>'password2'),
       array('email', 'email'),
       array('email', 'unique', 'caseSensitive' => false),
       array('password', 'length', 'min' => 6, 'max' => 40),
