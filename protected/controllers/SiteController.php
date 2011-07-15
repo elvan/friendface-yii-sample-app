@@ -8,7 +8,7 @@ class SiteController extends Controller {
     return array(
       // captcha action renders the CAPTCHA image displayed on the contact page
       'captcha'=>array(
-        'class'=>'CCustomCaptchaAction',
+        'class'=>'CCaptchaAction',
         'backColor'=>0xFFFFFF,
       ),
     );

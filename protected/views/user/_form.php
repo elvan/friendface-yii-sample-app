@@ -45,6 +45,21 @@
     <?php echo $form->error($user,'password2'); ?>
   </div>
 
+  <?php if(CCaptcha::checkRequirements()): ?>
+  <div class="row">
+    <?php echo $form->labelEx($user,'verifyCode'); ?>
+    <div>
+    <?php $this->widget('CCaptcha'); ?>
+  </div>
+  <div class="row">
+    <?php echo $form->textField($user,'verifyCode'); ?>
+    </div>
+    <div class="hint">Please enter the letters as they are shown in the image above.
+    <br/>Letters are not case-sensitive.</div>
+    <?php echo $form->error($user,'verifyCode'); ?>
+  </div>
+  <?php endif; ?>
+
   <div class="actions">
     <?php echo CHtml::submitButton($user->isNewRecord ? 'Sign Up' : 'Save'); ?>
   </div>

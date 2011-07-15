@@ -27,6 +27,7 @@ class UserTest extends WebTestCase {
     $this->assertElementPresent('name=User[email]');
     $this->assertElementPresent('name=User[password]');
     $this->assertElementPresent('name=User[password2]');
+    $this->assertElementPresent('name=User[verifyCode]');
     $this->assertElementPresent('css=input[value=Sign Up]');
   }
 
@@ -46,6 +47,7 @@ class UserTest extends WebTestCase {
     $this->type('name=User[email]', '');
     $this->type('name=User[password]', '');
     $this->type('name=User[password2]', '');
+    $this->type('name=User[verifyCode]','');
     $this->clickAndWait('css=input[value=Sign Up]');
 
     // ensure error messages appear
@@ -55,6 +57,7 @@ class UserTest extends WebTestCase {
     $this->assertTextPresent('Email cannot be blank.');
     $this->assertTextPresent('Password cannot be blank.');
     $this->assertTextPresent('Password Confirmation cannot be blank.');
+    $this->assertTextPresent('Verify Code cannot be blank.');
 
     $userAfter = User::model()->findAll();
     $profileAfter = Profile::model()->findAll();
@@ -84,6 +87,7 @@ class UserTest extends WebTestCase {
     $this->type('name=User[email]', $this->attr['email']);
     $this->type('name=User[password]', $this->attr['password']);
     $this->type('name=User[password2]', $this->attr['password2']);
+    $this->type('name=User[verifyCode]', 'abcdef');
     $this->clickAndWait('css=input[value=Sign Up]');
 
     // ensure error messages appear
@@ -93,6 +97,7 @@ class UserTest extends WebTestCase {
     $this->assertTextNotPresent('Email cannot be blank.');
     $this->assertTextNotPresent('Password cannot be blank.');
     $this->assertTextNotPresent('Password Confirmation cannot be blank.');
+    $this->assertTextNotPresent('Verify Code cannot be blank.');
 
     $userAfter = User::model()->findAll();
     $profileAfter = Profile::model()->findAll();

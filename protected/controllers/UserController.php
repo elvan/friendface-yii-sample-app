@@ -6,10 +6,10 @@ class UserController extends Controller {
 
   public function actions() {
     return array(
-      // captcha action renders the CAPTCHA image displayed on the contact page
       'captcha'=>array(
-        'class'=>'CCustomCaptchaAction',
+        'class'=>'CCaptchaAction',
         'backColor'=>0xFFFFFF,
+        'fixedVerifyCode' => YII_DEBUG ? 'abcdef' : null,
       ),
     );
   }

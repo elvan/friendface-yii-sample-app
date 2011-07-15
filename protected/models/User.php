@@ -40,7 +40,7 @@ class User extends CActiveRecord {
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
-      array('email, password, password2', 'required', 'on' => 'insert'),
+      array('email, password, password2, verifyCode', 'required', 'on' => 'insert'),
       array('email', 'required', 'on' => 'change_email'),
       array('password, password2', 'required', 'on' => 'change_password'),
       array('password', 'compare', 'compareAttribute'=>'password2'),
