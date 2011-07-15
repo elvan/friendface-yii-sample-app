@@ -14,16 +14,6 @@ class UserController extends Controller {
     );
   }
 
-  public function actionIndex() {
-    $model = User::model()->findByPk(Yii::app()->user->id);
-    $this->pageTitle = $model->profile->full_name;
-    $username = $model->profile->full_name;
-    $this->render('index', array(
-      'model' => $model,
-      'username' => $username,
-    ));
-  }
-
   public function actionCreate() {
     $this->pageTitle = 'Sign Up';
     $user = new User;
@@ -70,33 +60,28 @@ class UserController extends Controller {
   }
 
   public function actionView() {
-    $model = $this->loadModel();
-    $this->pageTitle = $model->profile->first_name;
-    $username = $model->profile->first_name;
+    $this->layout = 'column2';
+    
+    if(isset($_GET['uid'])) {
+      $this->_model = User::model()->find('LOWER(uid)=?', array(strtolower($_GET['uid'])));
+      if ($this->_model == null) {
+        throw new CHttpException(404,'The requested page does not exist.');
+      }
+    }
+    else {
+      $this->_model = $this->loadModel();
+    }
+    $this->pageTitle = $this->_model->profile->first_name;
+    $username = $this->_model->profile->first_name;
     $this->render('view', array(
-      'model' => $model,
+      'model' => $this->_model,
       'username' => $username,
     ));
   }
 
-  public function actionShow() {
-    $user = User::model()->find('LOWER(uid)=?', array(strtolower(Yii::app()->request->getParam('uid'))));
-    if ($user == null) {
-      throw new CHttpException(404,'The requested page does not exist.');
-    }
-    else {
-      $this->pageTitle = $user->profile->first_name;
-      $username = $user->profile->first_name;
-      $this->render('view', array(
-        'model' => $model,
-        'username' => $username,
-      ));
-    }
-  }
-
   public function actionChangeEmail() {
     $this->pageTitle = 'Change Email';
-    $user = $this->loadModel();
+    $user = User::model()->findByPk(Yii::app()->user->id);
     $user->setScenario('change_email');
 
     if (Yii::app()->user->id != $user->id) {
@@ -120,7 +105,7 @@ class UserController extends Controller {
 
   public function actionChangePassword() {
     $this->pageTitle = 'Change Password';
-    $user = $this->loadModel();
+    $user = User::model()->findByPk(Yii::app()->user->id);
     $user->setScenario('change_password');
 
     if (Yii::app()->user->id != $user->id) {
@@ -165,7 +150,7 @@ class UserController extends Controller {
   public function accessRules() {
     return array(
       array('allow',
-        'actions' => array('index', 'view', 'create', 'captcha'),
+        'actions' => array('view', 'create', 'captcha'),
         'users' => array('*'),
       ),
       array('allow',

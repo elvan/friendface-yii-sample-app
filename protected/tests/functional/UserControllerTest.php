@@ -117,7 +117,7 @@ class UserTest extends WebTestCase {
     $user = $this->users('user1');
 
     // should be successful and have the right title
-    $this->open('user/changeEmail/' . $user->id);
+    $this->open('user/changeEmail');
     $this->assertEquals($this->title . 'Change Email', $this->getTitle());
 
     // ensure all form elements present
@@ -130,7 +130,7 @@ class UserTest extends WebTestCase {
     $user = $this->users('user1');
 
     // should be successful and have the right title
-    $this->open('user/changeEmail/' . $user->id);
+    $this->open('user/changeEmail');
     $this->assertEquals($this->title . 'Change Email', $this->getTitle());
 
     // submit empty form
@@ -146,7 +146,7 @@ class UserTest extends WebTestCase {
     $user = $this->users('user1');
 
     // should be successful and have the right title
-    $this->open('user/changeEmail/' . $user->id);
+    $this->open('user/changeEmail');
     $this->assertEquals($this->title . 'Change Email', $this->getTitle());
 
     // should change the user's attributes
@@ -170,7 +170,7 @@ class UserTest extends WebTestCase {
     $user = $this->users('user1');
 
     // should be successful and have the right title
-    $this->open('user/changePassword/' . $user->id);
+    $this->open('user/changePassword');
     $this->assertEquals('Friendface - Change Password', $this->getTitle());
 
     // ensure all form elements present
@@ -184,7 +184,7 @@ class UserTest extends WebTestCase {
     $user = $this->users('user1');
 
     // should be successful and have the right title
-    $this->open('user/changePassword/' . $user->id);
+    $this->open('user/changePassword');
     $this->assertEquals('Friendface - Change Password', $this->getTitle());
 
     // submit empty form
@@ -202,7 +202,7 @@ class UserTest extends WebTestCase {
     $user = $this->users('user1');
 
     // should be successful and have the right title
-    $this->open('user/changePassword/' . $user->id);
+    $this->open('user/changePassword');
     $this->assertEquals('Friendface - Change Password', $this->getTitle());
 
     // should change the user's attributes

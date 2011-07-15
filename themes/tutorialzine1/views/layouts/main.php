@@ -3,7 +3,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><?php echo CHtml::encode(Helper::title($this->pageTitle)); ?></title>
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/styles.css" media="screen, projection" />
+    <!-- blueprint CSS framework -->
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/styles.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/form.css" />
     <!-- Internet Explorer HTML5 enabling code: -->
     <!--[if IE]>
@@ -20,13 +26,13 @@
     <section id="page">
       <header>
         <hgroup>
-            <h1><?php echo CHtml::link(CHtml::encode(Yii::app()->name), Yii::app()->homeUrl); ?></h1>
+            <h1><?php echo CHtml::link(CHtml::encode(Yii::app()->name), Yii::app()->baseUrl); ?></h1>
             <h3>Jen's favorite social net site</h3>
         </hgroup>
         <nav class="clear" id="mainmenu">
         <?php $this->widget('zii.widgets.CMenu',array(
           'items'=>array(
-            array('label'=>'Home', 'url'=> Yii::app()->homeUrl),
+            array('label'=>'Home', 'url'=> Yii::app()->baseUrl),
             array('label' => 'Sign In', 'url' => array('/signin'), 'visible'=>Yii::app()->user->isGuest),
             array('label' => 'Profile', 'url'=>array(Helper::profile()), 'visible'=>!Yii::app()->user->isGuest),
             array('label' => 'Sign Out', 'url'=>array('/signout'), 'visible'=>!Yii::app()->user->isGuest)
@@ -44,7 +50,7 @@
       </section>
       <footer>
          <div class="line"></div>
-         <?php echo CHtml::link('Home', Yii::app()->homeUrl); ?>
+         <?php echo CHtml::link('Home', Yii::app()->baseUrl); ?>
          <?php echo CHtml::link('About', 'about'); ?>
          <?php echo CHtml::link('Contact', 'contact'); ?>
          <?php echo CHtml::link('Help', 'help'); ?>

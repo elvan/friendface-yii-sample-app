@@ -14,7 +14,7 @@
   </div>
 
   <div class="actions">
-    <?php echo CHtml::submitButton('Save'); ?>
+    <?php echo CHtml::submitButton('Save'); ?> or <?php echo CHtml::link('Cancel', Yii::app()->baseUrl . Helper::profile()); ?>
   </div>
 
   <p class="note">Fields with <span class="required">*</span> are required.</p>
