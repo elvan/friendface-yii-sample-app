@@ -3,7 +3,7 @@
 <div class="form">
 
 <?php $form = $this->beginWidget('CActiveForm', array(
-  'id'=>'project-form',
+  'id'=>'user-form',
   'enableAjaxValidation'=>false,
 )); ?>
 
