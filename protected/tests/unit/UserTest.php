@@ -159,8 +159,8 @@ class UserTest extends CDbTestCase {
     $this->assertTrue($user instanceof User);
     $this->assertNotNull($user->profile);
     $this->assertTrue($user->profile instanceof Profile);
-    $this->assertEquals('Profile', $user->profile->first_name);
-    $this->assertEquals('One', $user->profile->last_name);
+    $this->assertEquals('John', $user->profile->first_name);
+    $this->assertEquals('Smith', $user->profile->last_name);
     $this->assertEquals('Bandung', $user->profile->home_town);
     $this->assertEquals('Bandung', $user->profile->current_town);
   }

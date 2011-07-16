@@ -1,19 +1,6 @@
 <?php
 
 class UserController extends Controller {
-  public $pageTitle = '';
-  private $_model;
-
-  public function actions() {
-    return array(
-      'captcha'=>array(
-        'class'=>'CCaptchaAction',
-        'backColor'=>0xFFFFFF,
-        'fixedVerifyCode' => YII_DEBUG ? 'abcdef' : null,
-      ),
-    );
-  }
-
   public function actionCreate() {
     $this->pageTitle = 'Sign Up';
     $user = new User;
@@ -61,7 +48,7 @@ class UserController extends Controller {
 
   public function actionView() {
     $this->layout = 'column2';
-    
+
     if(isset($_GET['uid'])) {
       $this->_model = User::model()->find('LOWER(uid)=?', array(strtolower($_GET['uid'])));
       if ($this->_model == null) {
@@ -125,22 +112,6 @@ class UserController extends Controller {
     $this->render('change_password', array(
       'user'=>$user,
     ));
-  }
-
-  /**
-   * Returns the data model based on the primary key given in the GET variable.
-   * If the data model is not found, an HTTP exception will be raised.
-   */
-  public function loadModel() {
-    if($this->_model===null) {
-      if(isset($_GET['id'])) {
-        $this->_model=User::model()->findbyPk($_GET['id']);
-      }
-      if($this->_model===null) {
-        throw new CHttpException(404,'The requested page does not exist.');
-      }
-    }
-    return $this->_model;
   }
 
   public function filters() {

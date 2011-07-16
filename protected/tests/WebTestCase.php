@@ -12,6 +12,8 @@ define('TEST_BASE_URL','http://localhost/friendface/index-test.php/');
  * We also provide some common methods to be used by concrete test classes.
  */
 class WebTestCase extends CWebTestCase {
+  public $title = 'Friendface - ';
+
   /**
    * Sets up before each test method runs.
    * This mainly sets the base URL for the test application.
@@ -19,5 +21,19 @@ class WebTestCase extends CWebTestCase {
   protected function setUp() {
     parent::setUp();
     $this->setBrowserUrl(TEST_BASE_URL);
+  }
+
+  public function signinUser() {
+    $this->open('');
+    $this->clickAndWait('link=Sign In');
+    $this->assertEquals('Friendface - Sign In', $this->getTitle());
+    $this->assertElementPresent('name=LoginForm[email]');
+    $this->assertElementPresent('name=LoginForm[password]');
+    $this->assertElementPresent('css=input[value=Sign In]');
+    $this->type('name=LoginForm[email]', 'test1@notanaddress.com');
+    $this->type('name=LoginForm[password]', 'test_1');
+    $this->clickAndWait('css=input[value=Sign In]');
+    $this->assertEquals('Friendface - Home', $this->getTitle());
+    $this->assertElementPresent('link=Sign Out');
   }
 }

@@ -2,19 +2,6 @@
 
 class SiteController extends Controller {
   /**
-   * Declares class-based actions.
-   */
-  public function actions() {
-    return array(
-      // captcha action renders the CAPTCHA image displayed on the contact page
-      'captcha'=>array(
-        'class'=>'CCaptchaAction',
-        'backColor'=>0xFFFFFF,
-      ),
-    );
-  }
-
-  /**
    * This is the default 'index' action that is invoked
    * when an action is not explicitly requested by users.
    */

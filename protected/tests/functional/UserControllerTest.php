@@ -8,7 +8,6 @@ class UserTest extends WebTestCase {
     'password' => 'foobar',
     'password2' => 'foobar',
   );
-  public $title = 'Friendface - ';
   public $fixtures = array('users' => 'User', 'profiles' => 'Profile');
 
   public function testSignUpPage() {
@@ -262,44 +261,5 @@ class UserTest extends WebTestCase {
     // should require matching users for update
     $this->open('user/changePassword');
     $this->assertStringEndsWith('user/changePassword', $this->getLocation());
-  }
-
-  public function testFriendlyForwardings() {
-    $this->open('');
-    $this->assertElementPresent('link=Sign In');
-    $this->clickAndWait('link=Sign In');
-    $this->type('name=LoginForm[email]', 'test1@notanaddress.com');
-    $this->type('name=LoginForm[password]', 'test_1');
-    $this->clickAndWait('css=input[value=Sign In]');
-    $this->assertElementPresent('link=Sign Out');
-    $this->clickAndWait('link=Sign Out');
-
-    // the test automatically follows the redirect to the signin page
-    $this->open('user/changeEmail');
-    $this->assertStringEndsWith('friendface/signin', $this->getLocation());
-
-    $this->open('');
-    $this->assertElementPresent('link=Sign In');
-    $this->clickAndWait('link=Sign In');
-    $this->type('name=LoginForm[email]', 'test1@notanaddress.com');
-    $this->type('name=LoginForm[password]', 'test_1');
-    $this->clickAndWait('css=input[value=Sign In]');
-
-    // the test follows the redirect again, this time to user/update/[id]
-    $this->assertStringEndsWith('user/changeEmail', $this->getLocation());
-  }
-
-  public function signinUser() {
-    $this->open('');
-    $this->clickAndWait('link=Sign In');
-    $this->assertEquals('Friendface - Sign In', $this->getTitle());
-    $this->assertElementPresent('name=LoginForm[email]');
-    $this->assertElementPresent('name=LoginForm[password]');
-    $this->assertElementPresent('css=input[value=Sign In]');
-    $this->type('name=LoginForm[email]', 'test1@notanaddress.com');
-    $this->type('name=LoginForm[password]', 'test_1');
-    $this->clickAndWait('css=input[value=Sign In]');
-    $this->assertEquals('Friendface - Home', $this->getTitle());
-    $this->assertElementPresent('link=Sign Out');
   }
 }

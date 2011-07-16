@@ -20,7 +20,7 @@ class Helper {
         $link = '/u/' . $user->uid;
       }
       else {
-        $link = '/user/' . $user->id;
+        $link = '/profile/' . $user->id;
       }
     }
     return $link;

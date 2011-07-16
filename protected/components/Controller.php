@@ -19,4 +19,33 @@ class Controller extends CController {
    * for more details on how to specify this property.
    */
   public $breadcrumbs=array();
+  public $pageTitle = '';
+
+  protected $_model;
+
+  public function actions() {
+    return array(
+      'captcha'=>array(
+        'class'=>'CCaptchaAction',
+        'backColor'=>0xFFFFFF,
+        'fixedVerifyCode' => YII_DEBUG ? 'abcdef' : null,
+      ),
+    );
+  }
+
+  /**
+   * Returns the data model based on the primary key given in the GET variable.
+   * If the data model is not found, an HTTP exception will be raised.
+   */
+  public function loadModel() {
+    if($this->_model===null) {
+      if(isset($_GET['id'])) {
+        $this->_model=User::model()->findbyPk($_GET['id']);
+      }
+      if($this->_model===null) {
+        throw new CHttpException(404,'The requested page does not exist.');
+      }
+    }
+    return $this->_model;
+  }
 }

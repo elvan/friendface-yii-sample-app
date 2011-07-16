@@ -80,4 +80,29 @@ class SiteTest extends WebTestCase {
     $this->assertTextPresent('Sign In');
     $this->assertEquals('Friendface - Home', $this->getTitle());
   }
+
+  public function testFriendlyForwardings() {
+    $this->open('');
+    $this->assertElementPresent('link=Sign In');
+    $this->clickAndWait('link=Sign In');
+    $this->type('name=LoginForm[email]', 'test1@notanaddress.com');
+    $this->type('name=LoginForm[password]', 'test_1');
+    $this->clickAndWait('css=input[value=Sign In]');
+    $this->assertElementPresent('link=Sign Out');
+    $this->clickAndWait('link=Sign Out');
+
+    // the test automatically follows the redirect to the signin page
+    $this->open('profile/edit');
+    $this->assertStringEndsWith('friendface/signin', $this->getLocation());
+
+    $this->open('');
+    $this->assertElementPresent('link=Sign In');
+    $this->clickAndWait('link=Sign In');
+    $this->type('name=LoginForm[email]', 'test1@notanaddress.com');
+    $this->type('name=LoginForm[password]', 'test_1');
+    $this->clickAndWait('css=input[value=Sign In]');
+
+    // the test follows the redirect again, this time to user/update/[id]
+    $this->assertStringEndsWith('profile/edit', $this->getLocation());
+  }
 }
