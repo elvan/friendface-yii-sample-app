@@ -15,7 +15,10 @@ class ProfileController extends Controller {
     }
 
     if (Yii::app()->user->id == $this->_model->id) {
-      $this->menu = array(array('label' => 'Edit Profile', 'url' => array('edit')));
+      $this->menu = array(
+        array('label' => 'Change Profile Pic', 'url' => 'changeProfilePic'),
+        array('label' => 'Edit Profile', 'url' => 'edit'),
+      );
     }
 
     $full_name = $this->_model->profile->first_name . ' ' . $this->_model->profile->last_name;;
@@ -28,15 +31,10 @@ class ProfileController extends Controller {
 
   public function actionEdit() {
     $this->pageTitle = 'Edit Profile';
-    $user = User::model()->findByPk(Yii::app()->user->id);
-    $profile = Profile::model()->findByPk($user->id);
+    $profile = Profile::model()->findByPk(Yii::app()->user->id);
     $profile->birth_date['day'] = date('j', strtotime($profile->date_of_birth));
     $profile->birth_date['month'] = date('n', strtotime($profile->date_of_birth));
     $profile->birth_date['year'] = date('Y', strtotime($profile->date_of_birth));
-
-    if (Yii::app()->user->id != $user->id) {
-      $this->redirect(Yii::app()->homeUrl);
-    }
 
     // Uncomment the following line if AJAX validation is needed
     // $this->performAjaxValidation($model);
@@ -69,6 +67,33 @@ class ProfileController extends Controller {
     ));
   }
 
+  public function actionChangeProfilePic() {
+    $this->pageTitle = 'Profile Picture';
+    $profile = Profile::model()->findByPk(Yii::app()->user->id);
+    $profile->setScenario('change_profile_pic');
+
+    // Uncomment the following line if AJAX validation is needed
+    // $this->performAjaxValidation($model);
+    if (isset($_POST['Profile'])) {
+      $uploaddir = Yii::app()->basePath . '/../uploads/';
+      $newName = md5(basename($_FILES['Profile']['name']['profile_pic'])) . '.jpg';
+      $uploadfile = $uploaddir . $newName;
+
+      if (move_uploaded_file($_FILES['Profile']['tmp_name']['profile_pic'], $uploadfile)) {
+        $profile->profile_picture = $newName;
+      }
+
+      if ($profile->save()) {
+        Yii::app()->user->setFlash('profile', 'Profile Puctire successfuly uploaded.');
+        $this->redirect(array('view', 'id' => $profile->id));
+      }
+    }
+
+    $this->render('changeProfilePic', array(
+      'profile' => $profile,
+    ));
+  }
+
   public function filters() {
     return array('accessControl');
   }
@@ -80,7 +105,7 @@ class ProfileController extends Controller {
         'users' => array('*'),
       ),
       array('allow',
-        'actions' => array('edit'),
+        'actions' => array('edit', 'changeProfilePic'),
         'users' => array('@'),
       ),
       array('deny',

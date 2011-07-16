@@ -3,18 +3,23 @@
 class ProfileControllerTest extends WebTestCase {
   public $fixtures = array('users' => 'User', 'profiles' => 'Profile');
 
-  public function testEditProfilePage() {
+  public function testShowProfilePage() {
     $full_name = $this->users('user1')->profile->first_name . ' ' . $this->users('user1')->profile->last_name;
     $this->signinUser();
     $this->assertElementPresent('link=Profile');
     $this->clickAndWait('link=Profile');
     $this->assertEquals($this->title . $full_name, $this->getTitle());
     $this->assertStringEndsWith('/friendface/profile/' . $this->users('user1')->id, $this->getLocation());
+    $this->assertElementPresent('alt=Profile Pic');
     $this->assertTextPresent($full_name);
     $this->assertTextPresent('Home Town: ' . $this->users('user1')->profile->home_town);
     $this->assertTextPresent('Current Town: ' . $this->users('user1')->profile->current_town);
     $this->assertTextPresent('Date of Birth: ' . date('F j, Y', strtotime($this->users('user1')->profile->date_of_birth)));
-
+  }
+  
+  public function testEditProfilePage() {
+    $this->signinUser();
+    $this->open('profile/' . $this->users('user1')->id);
     $this->assertElementPresent('link=Edit Profile');
     $this->clickAndWait('link=Edit Profile');
     $this->assertEquals($this->title . 'Edit Profile', $this->getTitle());
@@ -87,5 +92,16 @@ class ProfileControllerTest extends WebTestCase {
     // should require matching users for update
     $this->open('profile/edit');
     $this->assertStringEndsWith('profile/edit', $this->getLocation());
+  }
+
+  public function testUploadProfilePicture() {
+    $this->signinUser();
+    $this->assertElementPresent('link=Profile');
+    $this->clickAndWait('link=Profile');
+    $this->assertElementPresent('link=Change Profile Pic');
+    $this->clickAndWait('link=Change Profile Pic');
+    $this->assertEquals($this->title . 'Profile Picture', $this->getTitle());
+    $this->assertElementPresent('name=Profile[profile_pic]');
+    $this->assertElementPresent('css=input[value=Upload]');
   }
 }

@@ -44,4 +44,16 @@ class Helper {
 
     return $birth_date;
   }
+  
+  public static function profilePicture($profile) {
+    $imageFolder = Yii::app()->baseUrl . '/uploads/';
+    $image = '';
+    if ($profile->profile_picture) {
+      $image = $profile->profile_picture;
+    }
+    else {
+      $image = 'default.jpg';
+    }
+    return $imageFolder . $image;
+  }
 }

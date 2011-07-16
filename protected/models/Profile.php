@@ -16,6 +16,7 @@
  */
 class Profile extends CActiveRecord {
   public $birth_date = array();
+  public $profile_pic;
 
   /**
    * Returns the static model of the specified AR class.
@@ -39,12 +40,13 @@ class Profile extends CActiveRecord {
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
-      array('first_name, last_name, date_of_birth', 'required'),
+      array('first_name, last_name, date_of_birth', 'required', 'on' => 'insert, update'),
       array('user_id', 'numerical', 'integerOnly'=>true),
       array('first_name, last_name', 'length', 'min' => 3, 'max' => 50),
       array('username', 'length', 'min' => 5, 'max' => 16),
       array('home_town, current_town', 'length', 'max'=>50),
       array('date_of_birth, create_time, update_time', 'safe'),
+      array('profile_pic', 'file', 'allowEmpty' => true, 'maxSize' => 200 * 1024, 'types' => 'jpg, png'),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
       array('id, user_id, username, full_name, home_town, current_town, date_of_birth, create_time, update_time', 'safe', 'on'=>'search'),
