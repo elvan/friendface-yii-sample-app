@@ -12,11 +12,9 @@ class ProfileControllerTest extends WebTestCase {
     $this->assertStringEndsWith('/friendface/profile/' . $this->users('user1')->id, $this->getLocation());
     $this->assertElementPresent('alt=Profile Pic');
     $this->assertTextPresent($full_name);
-    $this->assertTextPresent('Home Town: ' . $this->users('user1')->profile->home_town);
-    $this->assertTextPresent('Current Town: ' . $this->users('user1')->profile->current_town);
     $this->assertTextPresent('Date of Birth: ' . date('F j, Y', strtotime($this->users('user1')->profile->date_of_birth)));
   }
-  
+
   public function testEditProfilePage() {
     $this->signinUser();
     $this->open('profile/' . $this->users('user1')->id);
@@ -58,8 +56,6 @@ class ProfileControllerTest extends WebTestCase {
 
     $this->type('name=Profile[first_name]', 'Jason');
     $this->type('name=Profile[last_name]', 'Stevens');
-    $this->type('name=Profile[home_town]', '');
-    $this->type('name=Profile[current_town]', '');
     $this->select('name=Profile[birth_date][day]', 'index=25');
     $this->select('name=Profile[birth_date][month]', 'index=5');
     $this->select('name=Profile[birth_date][year]', 'index=85');
@@ -69,8 +65,6 @@ class ProfileControllerTest extends WebTestCase {
     $this->assertTextPresent('Profile successfuly updated.');
     $this->assertTextNotPresent('First Name cannot be blank.');
     $this->assertTextNotPresent('Last Name cannot be blank.');
-    $this->assertTextNotPresent('Home Town:');
-    $this->assertTextNotPresent('Current Town:');
   }
 
   // authentication of edit profile page
@@ -103,5 +97,13 @@ class ProfileControllerTest extends WebTestCase {
     $this->assertEquals($this->title . 'Profile Picture', $this->getTitle());
     $this->assertElementPresent('name=Profile[profile_pic]');
     $this->assertElementPresent('css=input[value=Upload]');
+  }
+
+  public function testCreatePost() {
+    $this->signinUser();
+    $this->assertElementPresent('link=Profile');
+    $this->clickAndWait('link=Profile');
+    $this->assertElementPresent('name=Post[content]');
+    $this->assertElementPresent('name=Post[recipient_id]');
   }
 }

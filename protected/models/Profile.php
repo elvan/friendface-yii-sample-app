@@ -22,7 +22,7 @@ class Profile extends CActiveRecord {
    * Returns the static model of the specified AR class.
    * @return Profile the static model class
    */
-  public static function model($className=__CLASS__) {
+  public static function model($className = __CLASS__) {
     return parent::model($className);
   }
 
@@ -60,6 +60,7 @@ class Profile extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
+      'posts' => array(self::HAS_MANY, 'Post', 'recipient_id'),
     );
   }
 
@@ -71,7 +72,6 @@ class Profile extends CActiveRecord {
       'id' => 'ID',
       'user_id' => 'User',
       'display_name' => 'Display Name',
-      'full_name' => 'Full Name',
       'home_town' => 'Home Town',
       'current_town' => 'Current Town',
       'date_of_birth' => 'Date of Birth',
@@ -90,18 +90,23 @@ class Profile extends CActiveRecord {
 
     $criteria=new CDbCriteria;
 
-    $criteria->compare('id',$this->id);
-    $criteria->compare('user_id',$this->user_id);
-    $criteria->compare('display_name',$this->display_name,true);
-    $criteria->compare('full_name',$this->full_name,true);
-    $criteria->compare('home_town',$this->home_town,true);
-    $criteria->compare('current_town',$this->current_town,true);
-    $criteria->compare('date_of_birth',$this->date_of_birth,true);
-    $criteria->compare('created_at',$this->created_at,true);
-    $criteria->compare('updated_at',$this->updated_at,true);
+    $criteria->compare('id', $this->id);
+    $criteria->compare('user_id', $this->user_id);
+    $criteria->compare('display_name', $this->display_name,true);
+    $criteria->compare('first_name', $this->first_name,true);
+    $criteria->compare('last_name', $this->last_name,true);
+    $criteria->compare('home_town', $this->home_town,true);
+    $criteria->compare('current_town', $this->current_town,true);
+    $criteria->compare('date_of_birth', $this->date_of_birth,true);
+    $criteria->compare('created_at', $this->created_at,true);
+    $criteria->compare('updated_at', $this->updated_at,true);
 
     return new CActiveDataProvider($this, array(
-      'criteria'=>$criteria,
+      'criteria' => $criteria,
     ));
+  }
+
+  public function getFullName() {
+    return $this->first_name . ' ' . $this->last_name;
   }
 }

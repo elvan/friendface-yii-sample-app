@@ -1,17 +1,13 @@
-<div class="flash-success">
-  <?php echo Yii::app()->user->getFlash('profile'); ?>
-</div>
+<?php if(Yii::app()->user->hasFlash('profile')): ?>
+  <div class="flash-success">
+    <?php echo Yii::app()->user->getFlash('profile'); ?>
+  </div>
+<?php endif; ?>
 
-<h2>
-  <?php echo $full_name; ?>
-</h2>
-<div>
-  <?php echo CHtml::image(Helper::profilePicture($profile), 'Profile Pic'); ?><br />
-  <?php if ($profile->home_town): ?>
-    Home Town: <?php echo $profile->home_town;?><br />
-  <?php endif; ?>
-  <?php if ($profile->current_town): ?>
-    Current Town: <?php echo $profile->current_town;?><br />
-  <?php endif; ?>
-  Date of Birth: <?php echo date('F j, Y', strtotime($profile->date_of_birth));?><br />
-</div>
+<?php echo $this->renderPartial('/post/_create', array('post' => $post)); ?>
+
+<?php $this->renderPartial('/post/_list',array(
+  'profile' => $profile,
+  'posts' => $profile->posts,
+  'dataProvider' => $dataProvider,
+)); ?>

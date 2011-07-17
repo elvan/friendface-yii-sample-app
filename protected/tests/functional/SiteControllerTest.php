@@ -94,10 +94,6 @@ class SiteTest extends WebTestCase {
     // the test automatically follows the redirect to the signin page
     $this->open('profile/edit');
     $this->assertStringEndsWith('friendface/signin', $this->getLocation());
-
-    $this->open('');
-    $this->assertElementPresent('link=Sign In');
-    $this->clickAndWait('link=Sign In');
     $this->type('name=LoginForm[email]', 'test1@notanaddress.com');
     $this->type('name=LoginForm[password]', 'test_1');
     $this->clickAndWait('css=input[value=Sign In]');

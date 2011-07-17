@@ -1,6 +1,6 @@
 <?php
 
-class m110712_072831_Profile extends CDbMigration {
+class m110712_072831_create_profile extends CDbMigration {
   public function up() {
     $this->createTable('tbl_profile', array(
       'id' => 'pk',
@@ -11,8 +11,9 @@ class m110712_072831_Profile extends CDbMigration {
       'home_town' => 'string',
       'current_town' => 'string',
       'date_of_birth' => 'datetime',
-      'create_time' => 'datetime',
-      'update_time' => 'datetime',
+      'profile_picture' => 'string',
+      'create_time' => 'integer',
+      'update_time' => 'integer',
     ));
   }
 

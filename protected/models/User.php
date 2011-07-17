@@ -22,7 +22,7 @@ class User extends CActiveRecord {
    * Returns the static model of the specified AR class.
    * @return User the static model class
    */
-  public static function model($className=__CLASS__) {
+  public static function model($className = __CLASS__) {
     return parent::model($className);
   }
 
@@ -87,12 +87,12 @@ class User extends CActiveRecord {
 
     $criteria=new CDbCriteria;
 
-    $criteria->compare('id',$this->id);
-    $criteria->compare('uid',$this->uid,true);
-    $criteria->compare('email',$this->email,true);
+    $criteria->compare('id', $this->id);
+    $criteria->compare('uid', $this->uid,true);
+    $criteria->compare('email', $this->email,true);
 
     return new CActiveDataProvider($this, array(
-      'criteria'=>$criteria,
+      'criteria' => $criteria,
     ));
   }
 

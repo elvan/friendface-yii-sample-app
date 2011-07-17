@@ -11,6 +11,7 @@ return array(
     'date_of_birth' => '1983-04-19',
     'create_time' => '',
     'update_time' => '',
+    'profile_picture' => '8964f255b1a561d5efd7241b5c3af78f.jpg',
   ),
 
   'profile2'=>array(

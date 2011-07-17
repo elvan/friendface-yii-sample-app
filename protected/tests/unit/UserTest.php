@@ -1,13 +1,13 @@
 <?php
 
 class UserTest extends CDbTestCase {
+  public $fixtures = array('users' => 'User');
   public $attr = array(
     'email' => 'test3@notanaddress.com',
     'password' => 'test_3',
     'password2' => 'test_3',
     'verifyCode' => 'abcdef',
   );
-  public $fixtures = array('users' => 'User');
 
   public function testCreateValidUser() {
     $user = new User;

@@ -6,10 +6,29 @@ class SiteController extends Controller {
    * when an action is not explicitly requested by users.
    */
   public function actionIndex() {
+    $this->layout = 'home';
     $this->pageTitle = 'Home';
-    $user = new User;
-    $profile = new Profile;
-    $this->render('index', array('user' => $user, 'profile' => $profile));
+    
+    if (Yii::app()->user->isGuest) {
+      $user = new User;
+      $profile = new Profile;
+      $this->render('index', array(
+        'user' => $user,
+        'profile' => $profile,
+      ));
+    }
+    else {
+      $user = $this->loadUser();
+      $profile = $user->profile;
+      $post = $this->createPost();
+      $postList = Post::model()->findAll('recipient_id=?', array($user->id));
+      $this->render('index', array(
+        'user' => $user,
+        'profile' => $profile,
+        'post' => $post,
+        'dataProvider' => $this->listPosts(),
+      ));
+    }
   }
 
   public function actionAbout() {

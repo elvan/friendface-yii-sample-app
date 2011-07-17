@@ -1,27 +1,11 @@
 <?php
-/**
- * Controller is the customized base controller class.
- * All controller classes for this application should extend from this base class.
- */
+
 class Controller extends CController {
-  /**
-   * @var string the default layout for the controller view. Defaults to '//layouts/column1',
-   * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
-   */
-  public $layout='//layouts/column1';
-  /**
-   * @var array context menu items. This property will be assigned to {@link CMenu::items}.
-   */
-  public $menu=array();
-  /**
-   * @var array the breadcrumbs of the current page. The value of this property will
-   * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
-   * for more details on how to specify this property.
-   */
+  public $layout = '//layouts/column1';
+  public $menu = array();
   public $breadcrumbs=array();
   public $pageTitle = '';
-
-  protected $_model;
+  protected $_user;
 
   public function actions() {
     return array(
@@ -33,19 +17,56 @@ class Controller extends CController {
     );
   }
 
-  /**
-   * Returns the data model based on the primary key given in the GET variable.
-   * If the data model is not found, an HTTP exception will be raised.
-   */
-  public function loadModel() {
-    if($this->_model===null) {
+  public function loadUser() {
+    if ($this->_user === null) {
       if(isset($_GET['id'])) {
-        $this->_model=User::model()->findbyPk($_GET['id']);
+        $this->_user = User::model()->findbyPk($_GET['id']);
       }
-      if($this->_model===null) {
+      else {
+        $this->_user= User::model()->findbyPk(Yii::app()->user->id);
+      }
+
+      if($this->_user === null) {
         throw new CHttpException(404,'The requested page does not exist.');
       }
     }
-    return $this->_model;
+
+    return $this->_user;
+  }
+
+  public function isCurrentUser() {
+    return $this->_user->id == Yii::app()->user->id;
+  }
+
+  public function createPost() {
+    $user = $this->loadUser();
+    $post = new Post;
+    $post->recipient_id = $user->id;
+    $post->author_id = Yii::app()->user->id;
+
+    if (isset($_POST['Post']) && $_POST['Post']['content'] != '') {
+      $post->attributes = $_POST['Post'];
+      if($post->save()) {
+        $this->refresh();
+      }
+    }
+
+    return $post;
+  }
+
+  public function listPosts() {
+    $criteria = new CDbCriteria(array(
+      'condition' => 'recipient_id=' . $this->loadUser()->id,
+      'order' => 'create_time DESC',
+    ));
+
+    $dataProvider = new CActiveDataProvider('Post', array(
+      'pagination'=>array(
+        'pageSize' => 20,
+      ),
+      'criteria'=>$criteria,
+    ));
+
+    return $dataProvider;
   }
 }

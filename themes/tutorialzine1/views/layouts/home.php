@@ -6,8 +6,9 @@
 </div>
 <div class="span-6 last">
   <div id="sidebar">
-  <?php $this->widget('ProfilePortlet'); ?>
-  <div class="line"></div>
+  <div>
+    Dashboard for Home
+  </div>
   <?php
     $this->beginWidget('zii.widgets.CPortlet');
     $this->widget('zii.widgets.CMenu', array(

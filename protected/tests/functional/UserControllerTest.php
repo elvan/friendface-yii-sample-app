@@ -104,13 +104,6 @@ class UserTest extends WebTestCase {
     $this->assertNotEquals(count($profileBefore), count($profileAfter));
   }
 
-  public function testShowUser() {
-    $user = $this->users('user1');
-    // should find the right user
-    $this->open('user/' . $user->id);
-    $this->assertTextPresent($user->profile->first_name);
-  }
-
   public function testChangeEmailPage() {
     $this->signinUser();
     $user = $this->users('user1');
@@ -158,7 +151,7 @@ class UserTest extends WebTestCase {
     $this->assertEquals('new_test1@notanaddress.com', $updatedUser->email);
 
     // should redirect to the user show page
-    $this->assertStringEndsWith('/friendface/user/' . $updatedUser->id, $this->getLocation());
+    $this->assertStringEndsWith('/friendface/profile/' . $updatedUser->id, $this->getLocation());
 
     // should have a flash message
     $this->assertTextPresent('User successfuly updated.');
@@ -216,7 +209,7 @@ class UserTest extends WebTestCase {
     //$this->assertTrue($updatedUser->hasPassword('barbaz'));
 
     // should redirect to the user show page
-    $this->assertStringEndsWith('/friendface/user/' . $updatedUser->id, $this->getLocation());
+    $this->assertStringEndsWith('/friendface/profile/' . $updatedUser->id, $this->getLocation());
 
     // should have a flash message
     $this->assertTextPresent('User successfuly updated.');

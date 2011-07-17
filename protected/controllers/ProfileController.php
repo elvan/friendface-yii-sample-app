@@ -2,30 +2,26 @@
 
 class ProfileController extends Controller {
   public function actionView() {
-    $this->layout = 'column2';
+    $this->layout = 'profile';
+    $user = $this->loadUser();
+    $profile = $user->profile;
+    $userId = Yii::app()->user->id;
 
-    if(isset($_GET['uid'])) {
-      $this->_model = User::model()->find('LOWER(uid)=?', array(strtolower($_GET['uid'])));
-      if ($this->_model == null) {
-        throw new CHttpException(404,'The requested page does not exist.');
-      }
-    }
-    else {
-      $this->_model = $this->loadModel();
-    }
-
-    if (Yii::app()->user->id == $this->_model->id) {
+    if ($this->isCurrentUser()) {
       $this->menu = array(
         array('label' => 'Change Profile Pic', 'url' => 'changeProfilePic'),
         array('label' => 'Edit Profile', 'url' => 'edit'),
       );
     }
 
-    $full_name = $this->_model->profile->first_name . ' ' . $this->_model->profile->last_name;;
-    $this->pageTitle = $full_name;
+    $post = $this->createPost();
+    $postList = Post::model()->findAll('recipient_id=?', array($user->id));
+
+    $this->pageTitle = $profile->fullName;
     $this->render('view', array(
-      'profile' => $this->_model->profile,
-      'full_name' => $full_name,
+      'profile' => $profile,
+      'post' => $post,
+      'dataProvider' => $this->listPosts(),
     ));
   }
 

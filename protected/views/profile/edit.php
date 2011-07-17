@@ -1,4 +1,4 @@
-<h1>Edit Profile</h1>
+<h2>Edit Profile</h2>
 
 <div class="form">
 

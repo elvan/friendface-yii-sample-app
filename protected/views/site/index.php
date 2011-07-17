@@ -1,6 +1,17 @@
 <?php if (Yii::app()->user->isGuest): ?>
-  <h1>Everyone can join <i><?php echo CHtml::encode(Yii::app()->name); ?></i>, sign up now.</h1>
+  <h2>Everyone can join <i><?php echo CHtml::encode(Yii::app()->name); ?></i>, sign up now.</h2>
   <?php echo $this->renderPartial('/user/_form', array('user' => $user, 'profile' => $profile)); ?>
 <?php else: ?>
-  Welcome back to your home page.
+  <div>
+    <?php echo $this->renderPartial('/post/_create', array('post' => $post)); ?>
+  </div>
+
+  <div>
+  <?php $this->renderPartial('/post/_list',array(
+    'profile' => $profile,
+    'posts' => $profile->posts,
+    'dataProvider' => $dataProvider,
+  )); ?>
+  </div>
+
 <?php endif; ?>
