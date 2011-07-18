@@ -44,6 +44,11 @@ class Controller extends CController {
     $post->recipient_id = $user->id;
     $post->author_id = Yii::app()->user->id;
 
+    if (Yii::app()->request->isAjaxRequest) {
+      var_dump($_POST['Post']['content']);
+      Yii::app()->end();
+    }
+
     if (isset($_POST['Post']) && $_POST['Post']['content'] != '') {
       $post->attributes = $_POST['Post'];
       if($post->save()) {

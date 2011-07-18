@@ -310,6 +310,11 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
   padding-left: 110px;
 }
 
+div.form textarea {
+  width:540px;
+  height:100px;
+}
+
 input[type=submit] {
   color:#fcfcfc;
   border-color: #C6D880;

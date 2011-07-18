@@ -12,7 +12,9 @@
   </div>
 
   <div class="actions">
-    <?php echo CHtml::submitButton('Share'); ?>
+    <?php echo CHtml::ajaxSubmitButton('Share', '', array(
+      'update' => 'label[for=Post_content]',
+    )); ?>
   </div>
 
 <?php $this->endWidget(); ?>
