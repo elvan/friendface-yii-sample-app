@@ -7,9 +7,10 @@
 )); ?>
 
   <div class="field">
-    <label for="Post_content">Share something</label>
+    <?php echo $form->label($post,'content', array('label' => 'Share something')); ?>
     <?php echo $form->textArea($post,'content',array('cols'=>60, 'rows' => 4, 'maxlength'=>1024)); ?>
     <?php echo $form->hiddenField($post,'recipient_id'); ?>
+    <?php echo CHtml::hiddenField('returnUrl', $returnUrl); ?>
   </div>
 
   <div class="actions">

@@ -53,6 +53,7 @@ class Post extends CActiveRecord {
     return array(
       'author' => array(self::BELONGS_TO, 'User', 'author_id'),
       'recipient' => array(self::BELONGS_TO, 'Profile', 'recipient_id'),
+      'comments' => array(self::HAS_MANY, 'Comment', 'post_id'),
     );
   }
 

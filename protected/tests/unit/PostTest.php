@@ -27,13 +27,13 @@ class PostTest extends CDbTestCase {
   }
 
   public function testRelationAuthor() {
-    $post = Post::model()->findByPk(1);
+    $post = $this->posts('post1');
     $this->assertNotNull($post->author);
     $this->assertTrue($post->author instanceof User);
   }
 
   public function testRelationRecipient() {
-    $post = Post::model()->findByPk(1);
+    $post = $this->posts('post1');
     $this->assertNotNull($post->recipient);
     $this->assertTrue($post->recipient instanceof Profile);
   }

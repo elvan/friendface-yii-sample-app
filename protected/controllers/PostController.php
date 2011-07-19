@@ -4,39 +4,53 @@ class PostController extends Controller {
   public function actionCreate() {
     $post = new Post;
 
-    if (isset($_POST['Post']) && $_POST['Post']['content'] != '') {
+    if (isset($_POST['Post'])) {
       $post->attributes = $_POST['Post'];
       $post->author_id = Yii::app()->user->id;
       $post->save();
     }
 
-    $this->redirect(Yii::app()->user->getState('returnUrl'));
+    $this->redirect($this->createUrl($_POST['returnUrl']));
   }
 
   public function actionView() {
     $post = Post::model()->find('create_time=?', array($_GET['pid']));
-    //$comment = $this->newComment($post);
+    $comment = $this->newComment($post);
 
     $this->render('view',array(
       'post' => $post,
-      //'comment' => $comment,
+      'comment' => $comment,
+      'dataProvider' => $this->listComments($post->id),
     ));
   }
 
   protected function newComment($post) {
-    $comment =new Comment;
-    if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form') {
-      echo CActiveForm::validate($comment);
-      Yii::app()->end();
-    }
+    $comment = new Comment;
 
     if (isset($_POST['Comment'])) {
       $comment->attributes = $_POST['Comment'];
+      $comment->author_id = Yii::app()->user->id;
       if($post->addComment($comment)) {
         $this->refresh();
       }
     }
     return $comment;
+  }
+  
+  protected function listComments($postId)  {
+    $criteria = new CDbCriteria(array(
+      'condition' => 'post_id=' . $postId,
+      'order' => 'create_time ASC',
+    ));
+
+    $dataProvider = new CActiveDataProvider('Comment', array(
+      'pagination'=>array(
+        'pageSize' => 50,
+      ),
+      'criteria'=>$criteria,
+    ));
+
+    return $dataProvider;
   }
   
   public function accessRules() {
@@ -54,31 +68,4 @@ class PostController extends Controller {
       ),
     );
   }
-
-  // Uncomment the following methods and override them if needed
-  /*
-  public function filters()
-  {
-    // return the filter configuration for this controller, e.g.:
-    return array(
-      'inlineFilterName',
-      array(
-        'class'=>'path.to.FilterClass',
-        'propertyName'=>'propertyValue',
-      ),
-    );
-  }
-
-  public function actions()
-  {
-    // return external action classes, e.g.:
-    return array(
-      'action1'=>'path.to.ActionClass',
-      'action2'=>array(
-        'class'=>'path.to.AnotherActionClass',
-        'propertyName'=>'propertyValue',
-      ),
-    );
-  }
-  */
 }

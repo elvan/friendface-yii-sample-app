@@ -5,11 +5,5 @@
 </div>
 <div class="content">
   <?php echo CHtml::link(date('F j, Y \a\t h:i a', $data->create_time), $this->createUrl('profile/' . $data->author->profile->id . '/post/' . $data->create_time)); ?>
-  <?php if (count($data->comments) >= 1): ?>
-    <div>
-      <?php echo CHtml::link((count($data->comments) > 1) ? count($data->comments) . ' comments' : 'One comment', $this->createUrl('profile/' . $data->author->profile->id . '/post/' . $data->create_time . '#comments')); ?>
-    </div>
-  <? endif; ?>
-
 </div>
 <div class="clear line"></div>

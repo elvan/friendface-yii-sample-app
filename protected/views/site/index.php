@@ -3,7 +3,7 @@
   <?php echo $this->renderPartial('/user/_form', array('user' => $user, 'profile' => $profile)); ?>
 <?php else: ?>
   <div>
-    <?php echo $this->renderPartial('/post/_create', array('post' => $post)); ?>
+    <?php echo $this->renderPartial('/post/_create', array('post' => $post, 'returnUrl' => '/')); ?>
   </div>
 
   <div>

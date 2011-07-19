@@ -5,7 +5,7 @@
 <?php endif; ?>
 
 <?php if ($this->isSignedIn()): ?>
-  <?php echo $this->renderPartial('/post/_create', array('post' => $post)); ?>
+  <?php echo $this->renderPartial('/post/_create', array('post' => $post, 'returnUrl' => '/profile/' . $profile->id)); ?>
 <?php endif; ?>
 
 <?php $this->renderPartial('/post/_list',array(

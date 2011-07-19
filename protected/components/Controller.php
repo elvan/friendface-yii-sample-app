@@ -20,7 +20,7 @@ class Controller extends CController {
     return ! Yii::app()->user->isGuest;
   }
 
-  public function listPosts($profileId) {
+  protected function listPosts($profileId) {
     $criteria = new CDbCriteria(array(
       'condition' => 'recipient_id=' . $profileId,
       'order' => 'create_time DESC',
