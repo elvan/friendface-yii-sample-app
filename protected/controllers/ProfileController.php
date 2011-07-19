@@ -3,26 +3,32 @@
 class ProfileController extends Controller {
   public function actionView() {
     $this->layout = 'profile';
-    $user = $this->loadUser();
-    $profile = $user->profile;
-    $userId = Yii::app()->user->id;
-
-    if ($this->isCurrentUser()) {
-      $this->menu = array(
-        array('label' => 'Change Profile Pic', 'url' => 'changeProfilePic'),
-        array('label' => 'Edit Profile', 'url' => 'edit'),
-      );
-    }
-
-    $post = $this->createPost();
-    $postList = Post::model()->findAll('recipient_id=?', array($user->id));
-
+    $profile = Profile::model()->findByPk($_GET['id']);
     $this->pageTitle = $profile->fullName;
-    $this->render('view', array(
-      'profile' => $profile,
-      'post' => $post,
-      'dataProvider' => $this->listPosts(),
-    ));
+
+    if ($this->isSignedIn()) {
+      if ($_GET['id'] == Yii::app()->user->id) {
+        $this->menu = array(
+          array('label' => 'Change Profile Pic', 'url' => 'changeProfilePic'),
+          array('label' => 'Edit Profile', 'url' => 'edit'),
+        );
+      }
+
+      $post = new Post;
+      $post->recipient_id = $_GET['id'];
+      Yii::app()->user->setState('returnUrl', Yii::app()->request->url);
+      $this->render('view', array(
+        'profile' => $profile,
+        'post' => $post,
+        'dataProvider' => $this->listPosts($profile->id),
+      ));
+    }
+    else {
+      $this->render('view', array(
+        'profile' => $profile,
+        'dataProvider' => $this->listPosts($profile->id),
+      ));
+    }
   }
 
   public function actionEdit() {

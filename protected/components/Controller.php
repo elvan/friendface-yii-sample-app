@@ -5,7 +5,6 @@ class Controller extends CController {
   public $menu = array();
   public $breadcrumbs=array();
   public $pageTitle = '';
-  protected $_user;
 
   public function actions() {
     return array(
@@ -17,51 +16,13 @@ class Controller extends CController {
     );
   }
 
-  public function loadUser() {
-    if ($this->_user === null) {
-      if(isset($_GET['id'])) {
-        $this->_user = User::model()->findbyPk($_GET['id']);
-      }
-      else {
-        $this->_user= User::model()->findbyPk(Yii::app()->user->id);
-      }
-
-      if($this->_user === null) {
-        throw new CHttpException(404,'The requested page does not exist.');
-      }
-    }
-
-    return $this->_user;
+  public function isSignedIn() {
+    return ! Yii::app()->user->isGuest;
   }
 
-  public function isCurrentUser() {
-    return $this->_user->id == Yii::app()->user->id;
-  }
-
-  public function createPost() {
-    $user = $this->loadUser();
-    $post = new Post;
-    $post->recipient_id = $user->id;
-    $post->author_id = Yii::app()->user->id;
-
-    if (Yii::app()->request->isAjaxRequest) {
-      var_dump($_POST['Post']['content']);
-      Yii::app()->end();
-    }
-
-    if (isset($_POST['Post']) && $_POST['Post']['content'] != '') {
-      $post->attributes = $_POST['Post'];
-      if($post->save()) {
-        $this->refresh();
-      }
-    }
-
-    return $post;
-  }
-
-  public function listPosts() {
+  public function listPosts($profileId) {
     $criteria = new CDbCriteria(array(
-      'condition' => 'recipient_id=' . $this->loadUser()->id,
+      'condition' => 'recipient_id=' . $profileId,
       'order' => 'create_time DESC',
     ));
 

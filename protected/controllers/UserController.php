@@ -1,6 +1,15 @@
 <?php
 
 class UserController extends Controller {
+  public function actionView() {
+    $this->layout = 'settings';
+    $this->pageTitle = 'Settings';
+    $user = User::model()->findByPk(Yii::app()->user->id);
+    $this->render('view', array(
+      'user' => $user,
+    ));
+  }
+  
   public function actionCreate() {
     $this->pageTitle = 'Sign Up';
     $user = new User;
@@ -105,7 +114,7 @@ class UserController extends Controller {
         'users' => array('*'),
       ),
       array('allow',
-        'actions' => array('update', 'show', 'changeEmail', 'changePassword'),
+        'actions' => array('update', 'view', 'changeEmail', 'changePassword'),
         'users' => array('@'),
       ),
       array('deny',

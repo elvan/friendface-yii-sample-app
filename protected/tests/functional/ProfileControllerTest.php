@@ -99,11 +99,20 @@ class ProfileControllerTest extends WebTestCase {
     $this->assertElementPresent('css=input[value=Upload]');
   }
 
+  public function testShowPosts() {
+    $this->open('profile/1');
+    $this->assertTextPresent('Pro aperuit in deinde cepit roseo commendavit fideliter harena in.');
+    $this->assertTextPresent('Filiam vel per dicis eo.');
+  }
+
   public function testCreatePost() {
     $this->signinUser();
     $this->assertElementPresent('link=Profile');
     $this->clickAndWait('link=Profile');
     $this->assertElementPresent('name=Post[content]');
     $this->assertElementPresent('name=Post[recipient_id]');
+    $this->type('name=Post[content]', 'New status update');
+    $this->clickAndWait('css=input[value=Share]');
+    $this->assertTextPresent('New status update');
   }
 }

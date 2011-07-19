@@ -103,6 +103,21 @@ class UserTest extends WebTestCase {
     $this->assertNotEquals(count($userBefore), count($userAfter));
     $this->assertNotEquals(count($profileBefore), count($profileAfter));
   }
+  
+  public function testViewUserPage() {
+    $this->signinUser();
+    $user = $this->users('user1');
+
+    // should be successful and have the right title
+    $this->assertElementPresent('link=Settings');
+    $this->clickAndWait('link=Settings');
+    $this->assertEquals($this->title . 'Settings', $this->getTitle());
+
+    // ensure all form elements present
+    $this->assertTextPresent('John Smith');
+    $this->assertTextPresent('Email: test1@notanaddress.com');
+    $this->assertTextPresent('Password: (hidden)');
+  }
 
   public function testChangeEmailPage() {
     $this->signinUser();

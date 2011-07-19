@@ -5,10 +5,14 @@ $this->menu=array(
 );
 ?>
 
-<div class="flash-success">
-  <?php echo Yii::app()->user->getFlash('user'); ?>
-</div>
+<?php if (Yii::app()->user->getFlash('user')): ?>
+  <div class="flash-success">
+    <?php echo Yii::app()->user->getFlash('user'); ?>
+  </div>
+<?php endif; ?>
 
-<h1>
-  <?php echo $model->profile->first_name; ?>
-</h1>
+<h2>
+  <?php echo $user->profile->fullName; ?>
+</h2>
+<div class="row">Email: <?php echo $user->email; ?></div>
+<div class="row">Password: (hidden)</div>

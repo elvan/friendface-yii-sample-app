@@ -61,6 +61,7 @@ class Profile extends CActiveRecord {
     // class name for the relations automatically generated below.
     return array(
       'posts' => array(self::HAS_MANY, 'Post', 'recipient_id'),
+      'user' => array(self::BELONGS_TO, 'User', 'user_id'),
     );
   }
 

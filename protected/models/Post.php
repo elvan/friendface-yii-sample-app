@@ -34,6 +34,7 @@ class Post extends CActiveRecord {
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
+      array('content, author_id, recipient_id', 'required'),
       array('content', 'length', 'max' => '1024'),
       array('author_id, recipient_id', 'numerical', 'integerOnly' => true),
       array('content, create_time, update_time', 'safe'),
@@ -50,7 +51,17 @@ class Post extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-      'author' => array(self::BELONGS_TO, 'Profile', 'author_id'),
+      'author' => array(self::BELONGS_TO, 'User', 'author_id'),
+      'recipient' => array(self::BELONGS_TO, 'Profile', 'recipient_id'),
+    );
+  }
+
+  public function scopes() {
+    return array(
+      'recently' => array(
+        'order' => 'create_time DESC',
+        'limit' => 100,
+      ),
     );
   }
 
@@ -89,7 +100,7 @@ class Post extends CActiveRecord {
       'criteria' => $criteria,
     ));
   }
-  
+
   protected function beforeSave() {
     if (parent::beforeSave()) {
       if ($this->isNewRecord) {
@@ -103,5 +114,10 @@ class Post extends CActiveRecord {
     else {
       return false;
     }
+  }
+  
+  public function addComment($comment) {
+    $comment->post_id = $this->id;
+    return $comment->save();
   }
 }

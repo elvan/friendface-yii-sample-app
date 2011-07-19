@@ -34,6 +34,7 @@
             array('label'=>'Home', 'url'=> Yii::app()->baseUrl),
             array('label' => 'Sign In', 'url' => array('/signin'), 'visible'=>Yii::app()->user->isGuest),
             array('label' => 'Profile', 'url' => array(Helper::profile()), 'visible'=>!Yii::app()->user->isGuest),
+            array('label' => 'Settings', 'url' => array('/settings'), 'visible'=>!Yii::app()->user->isGuest),
             array('label' => 'Sign Out', 'url' => array('/signout'), 'visible'=>!Yii::app()->user->isGuest)
           ),
         )); ?>

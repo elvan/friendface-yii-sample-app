@@ -7,9 +7,8 @@
   </div>
 
   <div>
+  </div>
   <?php $this->renderPartial('/post/_list',array(
-    'profile' => $profile,
-    'posts' => $profile->posts,
     'dataProvider' => $dataProvider,
   )); ?>
   </div>

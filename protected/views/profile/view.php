@@ -4,7 +4,9 @@
   </div>
 <?php endif; ?>
 
-<?php echo $this->renderPartial('/post/_create', array('post' => $post)); ?>
+<?php if ($this->isSignedIn()): ?>
+  <?php echo $this->renderPartial('/post/_create', array('post' => $post)); ?>
+<?php endif; ?>
 
 <?php $this->renderPartial('/post/_list',array(
   'profile' => $profile,

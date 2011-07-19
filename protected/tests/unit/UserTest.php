@@ -154,14 +154,17 @@ class UserTest extends CDbTestCase {
     $this->assertTrue($matchingUser instanceof User);
   }
 
-  public function testGetProfile() {
+  public function testRelationProfile() {
     $user = User::model()->findByPk(1);
     $this->assertTrue($user instanceof User);
     $this->assertNotNull($user->profile);
     $this->assertTrue($user->profile instanceof Profile);
-    $this->assertEquals('John', $user->profile->first_name);
-    $this->assertEquals('Smith', $user->profile->last_name);
-    $this->assertEquals('Bandung', $user->profile->home_town);
-    $this->assertEquals('Bandung', $user->profile->current_town);
+  }
+  
+  public function testRelationPosts() {
+    $user = User::model()->findByPk(1);
+    $this->assertTrue($user instanceof User);
+    $this->assertNotNull($user->posts);
+    $this->assertTrue($user->posts['0'] instanceof Post);
   }
 }

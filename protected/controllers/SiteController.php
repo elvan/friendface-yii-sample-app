@@ -8,25 +8,23 @@ class SiteController extends Controller {
   public function actionIndex() {
     $this->layout = 'home';
     $this->pageTitle = 'Home';
-    
-    if (Yii::app()->user->isGuest) {
+
+    if ($this->isSignedIn()) {
+      $profileId = Yii::app()->user->id;
+      $post = new Post;
+      $post->recipient_id = $profileId;
+      Yii::app()->user->setState('returnUrl', Yii::app()->request->url);
+      $this->render('index', array(
+        'post' => $post,
+        'dataProvider' => $this->listPosts($profileId),
+      ));
+    }
+    else {
       $user = new User;
       $profile = new Profile;
       $this->render('index', array(
         'user' => $user,
         'profile' => $profile,
-      ));
-    }
-    else {
-      $user = $this->loadUser();
-      $profile = $user->profile;
-      $post = $this->createPost();
-      $postList = Post::model()->findAll('recipient_id=?', array($user->id));
-      $this->render('index', array(
-        'user' => $user,
-        'profile' => $profile,
-        'post' => $post,
-        'dataProvider' => $this->listPosts(),
       ));
     }
   }

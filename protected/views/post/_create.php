@@ -2,7 +2,8 @@
 
 <?php $form = $this->beginWidget('CActiveForm', array(
   'id'=>'post-form',
-  'enableAjaxValidation'=>false,
+  'action' => $this->createUrl('/post/create'),
+  'enableAjaxValidation'=>true,
 )); ?>
 
   <div class="field">
@@ -12,9 +13,7 @@
   </div>
 
   <div class="actions">
-    <?php echo CHtml::ajaxSubmitButton('Share', '', array(
-      'update' => 'label[for=Post_content]',
-    )); ?>
+    <?php echo CHtml::submitButton('Share'); ?>
   </div>
 
 <?php $this->endWidget(); ?>
