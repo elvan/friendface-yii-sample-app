@@ -62,7 +62,7 @@ class PostController extends Controller {
   public function actionDelete() {
     if(Yii::app()->request->isPostRequest) {
       if(isset($_GET['id'])) {
-        $post = Post::model()->find('id=:pid AND author_id=:aid', array(':pid' => $_GET['id'], ':aid' => Yii::app()->user->id));
+        $post = Post::model()->find('id=:pid AND (author_id=:aid OR recipient_id=:aid)', array(':pid' => $_GET['id'], ':aid' => Yii::app()->user->id));
         if ($post === null) {
           throw new CHttpException(404,'The requested page does not exist.');
         }

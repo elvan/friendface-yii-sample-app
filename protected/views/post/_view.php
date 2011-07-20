@@ -8,7 +8,7 @@
 </div>
 <div class="content">
   <?php echo CHtml::link(date('F j, Y \a\t h:i a', $data->create_time), $this->createUrl('profile/' . $data->recipient->id . '/post/' . $data->create_time)); ?>
-  <?php if ($data->author->profile->id == Yii::app()->user->id): ?>
+  <?php if ($data->author->profile->id == Yii::app()->user->id OR $data->recipient->id == Yii::app()->user->id): ?>
     <?php echo CHtml::linkButton('delete', array(
       'submit' => array('/post/delete/' . $data->id),
       'confirm' => 'Are you sure?',

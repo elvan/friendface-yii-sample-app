@@ -16,4 +16,16 @@ class CommentController extends Controller {
     else
       throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
   }
+  
+  public function accessRules() {
+    return array(
+      array('allow',
+        'actions' => array('delete'),
+        'users' => array('@'),
+      ),
+      array('deny',
+        'users' => array('*'),
+      ),
+    );
+  }
 }
