@@ -52,7 +52,23 @@ class PostController extends Controller {
 
     return $dataProvider;
   }
-  
+
+  public function actionDelete() {
+    if(Yii::app()->request->isPostRequest) {
+      if(isset($_GET['id'])) {
+        $post = Post::model()->findByPk($_GET['id']);
+        if ($post === null OR $post->author->id =! Yii::app()->user->id) {
+          throw new CHttpException(404,'The requested page does not exist.');
+        }
+
+        $post->delete();
+      }
+      $this->redirect(array('/'));
+    }
+    else
+      throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+  }
+
   public function accessRules() {
     return array(
       array('allow',
@@ -60,7 +76,7 @@ class PostController extends Controller {
         'users' => array('*'),
       ),
       array('allow',
-        'actions' => array('create'),
+        'actions' => array('create', 'delete'),
         'users' => array('@'),
       ),
       array('deny',

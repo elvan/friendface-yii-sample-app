@@ -6,12 +6,12 @@
 
 <div>
   <h1>
-    <?php echo CHtml::image(Helper::profilePicture($profile), 'Profile Pic'); ?>
+    <?php echo CHtml::image(Helper::profilePicture($profile), 'Profile Pic', array('width' => 80, 'height' => 80)); ?>
     <?php echo $profile->fullName; ?>
   </h1>
   
   <?php
-  if ($_GET['id'] !== Yii::app()->user->id) {
+  if ($_GET['id'] !== Yii::app()->user->id && !Yii::app()->user->isGuest) {
     $follower = Profile::model()->findByPk(Yii::app()->user->id);
     if ($follower->isFollowing($profile)) {
       $this->renderPartial('_unfollow', array('profile' => $profile));
@@ -22,6 +22,7 @@
   }
   ?>
 </div>
+<div class="clear line"></div>
 
 <?php if ($this->isSignedIn()): ?>
   <?php echo $this->renderPartial('/post/_create', array('post' => $post, 'returnUrl' => '/profile/' . $profile->id)); ?>
