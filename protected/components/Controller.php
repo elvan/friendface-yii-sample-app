@@ -25,12 +25,9 @@ class Controller extends CController {
       'condition' => 'recipient_id=' . $profileId,
       'order' => 'create_time DESC',
     ));
-    
+
     $profile = Profile::model()->findByPk($profileId);
     $ids = array($profile->id);
-
-    //$criteria = new CDbCriteria;
-    //$criteria->compare('recipient_id', );
 
     return new CActiveDataProvider('Post', array(
       'pagination'=>array(

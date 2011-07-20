@@ -116,7 +116,7 @@ class Post extends CActiveRecord {
       return false;
     }
   }
-  
+
   public function addComment($comment) {
     $comment->post_id = $this->id;
     return $comment->save();
@@ -132,7 +132,7 @@ class Post extends CActiveRecord {
       ),
     ));
   }
-  
+
   public static function getStatuses($profile) {
     $where = "author_id=" . $profile->user->id . " OR recipient_id=" . $profile->id;
     return new CActiveDataProvider(__CLASS__, array(

@@ -29,7 +29,7 @@ class ConnectionTest extends CDbTestCase {
     $connection->followed_id = '';
     $this->assertFalse($connection->save());
   }
-  
+
   public function testConnectionIds() {
     $connection1 = $this->connections('connection1');
     $connection2 = $this->connections('connection2');
@@ -44,7 +44,7 @@ class ConnectionTest extends CDbTestCase {
     $this->assertEquals(1, $connection2->follower_id);
     $this->assertEquals(2, $connection3->follower_id);
     $this->assertEquals(4, $connection4->follower_id);
-    
+
     $this->assertEquals(3, $connection1->followed_id);
     $this->assertEquals(4, $connection2->followed_id);
     $this->assertEquals(4, $connection3->followed_id);

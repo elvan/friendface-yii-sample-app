@@ -101,7 +101,6 @@ class User extends CActiveRecord {
     if (parent::beforeSave()) {
       if ($this->isNewRecord) {
         $this->encryptPassword();
-        $this->createUid();
       }
       return true;
     }
@@ -139,10 +138,5 @@ class User extends CActiveRecord {
 
   private function makeSalt() {
     return md5(time() . '--' . $this->password);
-  }
-
-  private function createUid() {
-    $crc32 = sprintf('%x', crc32($this->salt));
-    $this->uid = strtoupper($crc32);
   }
 }

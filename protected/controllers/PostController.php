@@ -42,7 +42,7 @@ class PostController extends Controller {
     }
     return $comment;
   }
-  
+
   protected function listComments($postId)  {
     $criteria = new CDbCriteria(array(
       'condition' => 'post_id=' . $postId,

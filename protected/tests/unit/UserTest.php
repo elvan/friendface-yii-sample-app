@@ -74,7 +74,7 @@ class UserTest extends CDbTestCase {
       'password2' => ''
     )));
     $this->assertFalse($user1->save());
-    
+
     $user2 = new User;
     $user2->setAttributes(array_merge($this->attr, array(
       'password2' => 'test_2'
@@ -160,7 +160,7 @@ class UserTest extends CDbTestCase {
     $this->assertNotNull($user->profile);
     $this->assertTrue($user->profile instanceof Profile);
   }
-  
+
   public function testRelationPosts() {
     $user = User::model()->findByPk(1);
     $this->assertTrue($user instanceof User);

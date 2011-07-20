@@ -9,7 +9,7 @@ class UserController extends Controller {
       'user' => $user,
     ));
   }
-  
+
   public function actionCreate() {
     $this->pageTitle = 'Sign Up';
     $user = new User;

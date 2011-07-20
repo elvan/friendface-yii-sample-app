@@ -117,12 +117,12 @@ class ProfileController extends Controller {
       }
     }
   }
-  
+
   public function actionFollowers() {
     $this->layout = 'profile';
     $followed = Profile::model()->findByPk($_GET['id']);
     Yii::app()->user->setState('returnUrl', Yii::app()->request->url);
-    
+
     $criteria = new CDbCriteria(array(
       'condition' => 'followed_id=' . $followed->id,
       'order' => 'create_time DESC',
@@ -134,7 +134,7 @@ class ProfileController extends Controller {
       ),
       'criteria'=>$criteria,
     ));
-    
+
     $this->render('followers', array(
       'dataProvider' => $dataProvider,
     ));
@@ -144,7 +144,7 @@ class ProfileController extends Controller {
     $this->layout = 'profile';
     $follower = Profile::model()->findByPk($_GET['id']);
     Yii::app()->user->setState('returnUrl', Yii::app()->request->url);
-    
+
     $criteria = new CDbCriteria(array(
       'condition' => 'follower_id=' . $follower->id,
       'order' => 'create_time DESC',
@@ -156,7 +156,7 @@ class ProfileController extends Controller {
       ),
       'criteria'=>$criteria,
     ));
-    
+
     $this->render('following', array(
       'dataProvider' => $dataProvider,
     ));

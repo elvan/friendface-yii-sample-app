@@ -103,7 +103,7 @@ class UserTest extends WebTestCase {
     $this->assertNotEquals(count($userBefore), count($userAfter));
     $this->assertNotEquals(count($profileBefore), count($profileAfter));
   }
-  
+
   public function testViewUserPage() {
     $this->signinUser();
     $user = $this->users('user1');

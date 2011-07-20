@@ -66,7 +66,7 @@ class Comment extends CActiveRecord {
     else
       return false;
   }
-  
+
   public function scopes() {
     return array(
       'recently' => array(

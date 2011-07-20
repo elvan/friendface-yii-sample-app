@@ -44,7 +44,7 @@ class Helper {
 
     return $birth_date;
   }
-  
+
   public static function profilePicture($profile) {
     $imageFolder = Yii::app()->baseUrl . '/uploads/';
     $image = '';

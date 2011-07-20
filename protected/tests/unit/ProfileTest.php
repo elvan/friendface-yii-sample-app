@@ -120,14 +120,14 @@ class ProfileTest extends CDbTestCase {
     $this->assertTrue($profile1->save());
     $this->assertFalse($profile1->isFollowing($profile2));
   }
-  
+
   public function testReverseConnectionsProperty() {
     $profile = $this->profiles('profile1');
     $this->assertNotNull($profile->revConnections);
     $this->assertInstanceOf('Connection', $profile->revConnections[0]);
   }
 
-  public function testCountConnections() { 
+  public function testCountConnections() {
     $profile1 = $this->profiles('profile1');
     $profile2 = $this->profiles('profile2');
     $profile3 = $this->profiles('profile3');
