@@ -7,10 +7,9 @@
   </div>
 
   <div>
-  </div>
-  <?php $this->renderPartial('/post/_list',array(
-    'dataProvider' => $dataProvider,
-  )); ?>
+    <?php $this->renderPartial('/post/_list',array(
+      'dataProvider' => $dataProvider,
+    )); ?>
   </div>
 
 <?php endif; ?>

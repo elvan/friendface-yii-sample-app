@@ -25,4 +25,29 @@ return array(
     'create_time' => '',
     'update_time' => '',
   ),
+
+  'profile3'=>array(
+    'user_id' => 3,
+    'username' => 'profile_three',
+    'first_name' => 'Michael',
+    'last_name' => 'Denver',
+    'home_town' => 'Semarang',
+    'current_town' => 'Bandung',
+    'date_of_birth' => '1985-08-11',
+    'create_time' => '',
+    'update_time' => '',
+    'profile_picture' => '8964f255b1a561d5efd7241b5c3af78f.jpg',
+  ),
+
+  'profile4'=>array(
+    'user_id' => 4,
+    'username' => 'profile_four',
+    'first_name' => 'Virginia',
+    'last_name' => 'Texas',
+    'home_town' => 'Jakarta',
+    'current_town' => 'Bogor',
+    'date_of_birth' => '1984-09-10',
+    'create_time' => '',
+    'update_time' => '',
+  ),
 );

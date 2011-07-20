@@ -13,10 +13,11 @@ class SiteController extends Controller {
       $profileId = Yii::app()->user->id;
       $post = new Post;
       $post->recipient_id = $profileId;
+      $profile = Profile::model()->findByPk($profileId);
       Yii::app()->user->setState('returnUrl', Yii::app()->request->url);
       $this->render('index', array(
         'post' => $post,
-        'dataProvider' => $this->listPosts($profileId),
+        'dataProvider' => Post::fromProfilefollowedBy($profile),
       ));
     }
     else {

@@ -1,7 +1,7 @@
 <?php $this->beginContent('//layouts/main'); ?>
 <div class="span-18">
-<div class="article">
-  <?php echo $content; ?>
+  <div class="article">
+    <?php echo $content; ?>
   </div>
 </div>
 <div class="span-6 last">

@@ -3,9 +3,9 @@
 class UserTest extends CDbTestCase {
   public $fixtures = array('users' => 'User');
   public $attr = array(
-    'email' => 'test3@notanaddress.com',
-    'password' => 'test_3',
-    'password2' => 'test_3',
+    'email' => 'test5@notanaddress.com',
+    'password' => 'test_5',
+    'password2' => 'test_5',
     'verifyCode' => 'abcdef',
   );
 

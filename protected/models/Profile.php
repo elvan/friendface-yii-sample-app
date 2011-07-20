@@ -62,6 +62,12 @@ class Profile extends CActiveRecord {
     return array(
       'posts' => array(self::HAS_MANY, 'Post', 'recipient_id'),
       'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+      'connections' => array(self::HAS_MANY, 'Connection', 'follower_id'),
+      'revConnections' => array(self::HAS_MANY, 'Connection', 'followed_id'),
+      'following' => array(self::HAS_MANY, 'Profile', 'followed_id', 'through' => 'connections'),
+      'followers' => array(self::HAS_MANY, 'Profile', 'follower_id', 'through' => 'revConnections'),
+      'followingCount' => array(self::STAT, 'Connection', 'follower_id'),
+      'followersCount' => array(self::STAT, 'Connection', 'followed_id'),
     );
   }
 
@@ -109,5 +115,21 @@ class Profile extends CActiveRecord {
 
   public function getFullName() {
     return $this->first_name . ' ' . $this->last_name;
+  }
+
+  public function isFollowing($followed) {
+    $connection = Connection::model()->find('followed_id=? AND follower_id=?', array($followed->id, $this->id));
+    return ($connection === null) ? false : true;
+  }
+
+  public function addFollowing($followed) {
+    $connection = new Connection;
+    $connection->follower_id = $this->id;
+    $connection->followed_id = $followed->id;
+    return $connection->save();
+  }
+
+  public function removeFollowing($followed) {
+    return Connection::model()->find('followed_id=? AND follower_id=?', array($followed->id, $this->id))->delete();
   }
 }

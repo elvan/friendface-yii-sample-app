@@ -121,4 +121,15 @@ class Post extends CActiveRecord {
     $comment->post_id = $this->id;
     return $comment->save();
   }
+
+  public static function fromProfilefollowedBy($profile) {
+    $followedIds = implode(", ", array_map(function($following) { return $following->id; }, $profile->following));
+    $where = $followedIds ? "recipient_id IN ({$followedIds}) OR recipient_id=" . $profile->id : "recipient_id=" . $profile->id;
+    return new CActiveDataProvider(__CLASS__, array(
+      'criteria'=>array(
+        'condition'=>$where,
+        'order'=>'create_time DESC',
+      ),
+    ));
+  }
 }

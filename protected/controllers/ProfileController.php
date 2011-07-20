@@ -86,13 +86,79 @@ class ProfileController extends Controller {
       }
 
       if ($profile->save()) {
-        Yii::app()->user->setFlash('profile', 'Profile Puctire successfuly uploaded.');
+        Yii::app()->user->setFlash('profile', 'Profile Picture successfuly uploaded.');
         $this->redirect(array('view', 'id' => $profile->id));
       }
     }
 
     $this->render('changeProfilePic', array(
       'profile' => $profile,
+    ));
+  }
+
+  public function actionFollow() {
+    if (isset($_POST['Profile'])) {
+      $followed = Profile::model()->findByPk($_POST['Profile']['id']);
+      $follower = Profile::model()->findByPk(Yii::app()->user->id);
+      if ($follower->addFollowing($followed)) {
+        Yii::app()->user->setFlash('profile', 'This profile successfuly followed.');
+        $this->redirect(Yii::app()->user->getState('returnUrl'));
+      }
+    }
+  }
+
+  public function actionUnfollow() {
+    if (isset($_POST['Profile'])) {
+      $followed = Profile::model()->findByPk($_POST['Profile']['id']);
+      $follower = Profile::model()->findByPk(Yii::app()->user->id);
+      if ($follower->removeFollowing($followed)) {
+        Yii::app()->user->setFlash('profile', 'This profile successfuly unfollowed.');
+        $this->redirect(Yii::app()->user->getState('returnUrl'));
+      }
+    }
+  }
+  
+  public function actionFollowers() {
+    $this->layout = 'profile';
+    $followed = Profile::model()->findByPk($_GET['id']);
+    Yii::app()->user->setState('returnUrl', Yii::app()->request->url);
+    
+    $criteria = new CDbCriteria(array(
+      'condition' => 'followed_id=' . $followed->id,
+      'order' => 'create_time DESC',
+    ));
+
+    $dataProvider = new CActiveDataProvider('Connection', array(
+      'pagination'=>array(
+        'pageSize' => 20,
+      ),
+      'criteria'=>$criteria,
+    ));
+    
+    $this->render('followers', array(
+      'dataProvider' => $dataProvider,
+    ));
+  }
+
+  public function actionFollowing() {
+    $this->layout = 'profile';
+    $follower = Profile::model()->findByPk($_GET['id']);
+    Yii::app()->user->setState('returnUrl', Yii::app()->request->url);
+    
+    $criteria = new CDbCriteria(array(
+      'condition' => 'follower_id=' . $follower->id,
+      'order' => 'create_time DESC',
+    ));
+
+    $dataProvider = new CActiveDataProvider('Connection', array(
+      'pagination'=>array(
+        'pageSize' => 20,
+      ),
+      'criteria'=>$criteria,
+    ));
+    
+    $this->render('following', array(
+      'dataProvider' => $dataProvider,
     ));
   }
 
@@ -103,11 +169,11 @@ class ProfileController extends Controller {
   public function accessRules() {
     return array(
       array('allow',
-        'actions' => array('view'),
+        'actions' => array('view', 'followers', 'following'),
         'users' => array('*'),
       ),
       array('allow',
-        'actions' => array('edit', 'changeProfilePic'),
+        'actions' => array('edit', 'changeProfilePic', 'follow', 'unfollow'),
         'users' => array('@'),
       ),
       array('deny',
