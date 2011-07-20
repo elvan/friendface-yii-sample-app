@@ -17,7 +17,8 @@ class SiteController extends Controller {
       Yii::app()->user->setState('returnUrl', Yii::app()->request->url);
       $this->render('index', array(
         'post' => $post,
-        'dataProvider' => Post::fromProfilefollowedBy($profile),
+        'profile' => $profile,
+        'dataProvider' => Post::getFeeds($profile),
       ));
     }
     else {

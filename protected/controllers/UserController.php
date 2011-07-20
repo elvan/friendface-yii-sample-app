@@ -41,7 +41,7 @@ class UserController extends Controller {
         $login->password = $user->password;
         $login->login();
         Yii::app()->user->setFlash('user', 'Welcome to the Friendface.');
-        $this->redirect(array('/profile', 'id' => $user->profile->id));
+        $this->redirect(array('/profile/' . $user->profile->id));
       }
       else {
         if ($profile->hasErrors()) {

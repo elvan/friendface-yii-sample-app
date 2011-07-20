@@ -11,7 +11,7 @@ return array(
     'date_of_birth' => '1983-04-19',
     'create_time' => '',
     'update_time' => '',
-    'profile_picture' => '8964f255b1a561d5efd7241b5c3af78f.jpg',
+    'profile_picture' => '3dcf2056cf82ac24be223c956f40bcec.jpg',
   ),
 
   'profile2'=>array(
@@ -24,6 +24,7 @@ return array(
     'date_of_birth' => '1984-02-20',
     'create_time' => '',
     'update_time' => '',
+    'profile_picture' => '9ec5716ace87236ca5aec92d78826172.jpg',
   ),
 
   'profile3'=>array(
@@ -36,7 +37,7 @@ return array(
     'date_of_birth' => '1985-08-11',
     'create_time' => '',
     'update_time' => '',
-    'profile_picture' => '8964f255b1a561d5efd7241b5c3af78f.jpg',
+    'profile_picture' => '181b7bf97741460c93c0d6a79694917a.jpg',
   ),
 
   'profile4'=>array(
@@ -49,5 +50,6 @@ return array(
     'date_of_birth' => '1984-09-10',
     'create_time' => '',
     'update_time' => '',
+    'profile_picture' => 'f11a6e69045c173c6e7154b079476bf6.jpg',
   ),
 );

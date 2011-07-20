@@ -20,13 +20,13 @@ class ProfileController extends Controller {
       $this->render('view', array(
         'profile' => $profile,
         'post' => $post,
-        'dataProvider' => $this->listPosts($profile->id),
+        'dataProvider' => Post::getStatuses($profile),
       ));
     }
     else {
       $this->render('view', array(
         'profile' => $profile,
-        'dataProvider' => $this->listPosts($profile->id),
+        'dataProvider' => Post::getStatuses($profile),
       ));
     }
   }

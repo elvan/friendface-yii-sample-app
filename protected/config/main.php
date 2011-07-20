@@ -47,7 +47,6 @@ return array(
         'signin' => 'site/login',
         'signout' => 'site/logout',
         'signup' => 'user/create',
-        'u/<uid:\w+>' => 'user/view',
         'profile/<uid:\d+>/post/<pid:\d+>' => 'post/view',
         'profile/<id:\d+>/followers' => 'profile/followers',
         'profile/<id:\d+>/following' => 'profile/following',

@@ -7,10 +7,10 @@ return CMap::mergeArray(
       'fixture'=>array(
         'class'=>'system.test.CDbFixtureManager',
       ),
-      // uncomment the following to provide test database connection
+      /*/ uncomment the following to provide test database connection
       'db'=>array(
         'connectionString' => 'mysql:host=localhost;dbname=friendface_test',
-      ),
+      ),*/
     ),
   )
 );

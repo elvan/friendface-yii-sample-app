@@ -5,5 +5,11 @@
 </div>
 <div class="content">
   <?php echo date('F j, Y \a\t h:i a', $data->create_time); ?>
+  <?php if ($data->author->profile->id == Yii::app()->user->id): ?>
+    <?php echo CHtml::linkButton('delete', array(
+      'submit' => array('/comment/delete/' . $data->id),
+      'confirm' => 'Are you sure?',
+    )); ?>
+  <?php endif; ?>
 </div>
 <div class="clear line"></div>

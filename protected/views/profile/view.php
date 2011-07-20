@@ -7,7 +7,7 @@
 <div>
   <h1>
     <?php echo CHtml::image(Helper::profilePicture($profile), 'Profile Pic', array('width' => 80, 'height' => 80)); ?>
-    <?php echo $profile->fullName; ?>
+    <?php echo CHtml::link($profile->fullName, array('/profile/' . $profile->id)); ?>
   </h1>
   
   <?php
@@ -28,7 +28,7 @@
   <?php echo $this->renderPartial('/post/_create', array('post' => $post, 'returnUrl' => '/profile/' . $profile->id)); ?>
 <?php endif; ?>
 
-<?php $this->renderPartial('/post/_list',array(
+<?php $this->renderPartial('/post/_status',array(
   'profile' => $profile,
   'posts' => $profile->posts,
   'dataProvider' => $dataProvider,

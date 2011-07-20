@@ -14,10 +14,16 @@ class PostController extends Controller {
   }
 
   public function actionView() {
-    $post = Post::model()->find('create_time=?', array($_GET['pid']));
+    $profile = Profile::model()->findByPk(array($_GET['uid']));
+    $post = Post::model()->find('recipient_id=:uid AND create_time=:pid', array(':uid' => $_GET['uid'], ':pid' => $_GET['pid']));
+    if ($post === null) {
+      throw new CHttpException(404,'The requested page does not exist.');
+    }
+
     $comment = $this->newComment($post);
 
     $this->render('view',array(
+      'profile' => $profile,
       'post' => $post,
       'comment' => $comment,
       'dataProvider' => $this->listComments($post->id),
@@ -56,8 +62,8 @@ class PostController extends Controller {
   public function actionDelete() {
     if(Yii::app()->request->isPostRequest) {
       if(isset($_GET['id'])) {
-        $post = Post::model()->findByPk($_GET['id']);
-        if ($post === null OR $post->author->id =! Yii::app()->user->id) {
+        $post = Post::model()->find('id=:pid AND author_id=:aid', array(':pid' => $_GET['id'], ':aid' => Yii::app()->user->id));
+        if ($post === null) {
           throw new CHttpException(404,'The requested page does not exist.');
         }
 
