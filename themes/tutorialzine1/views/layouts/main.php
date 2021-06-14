@@ -27,7 +27,7 @@
       <header>
         <hgroup>
             <h1><?php echo CHtml::link(CHtml::encode(Yii::app()->name), Yii::app()->baseUrl); ?></h1>
-            <h3>Jen's favorite social net site</h3>
+            <h3>Social Networking Site</h3>
         </hgroup>
         <nav class="clear" id="mainmenu">
         <?php $this->widget('zii.widgets.CMenu',array(
